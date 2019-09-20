@@ -1,117 +1,32 @@
-ThinkPHP 5.1
+DCS JSTARS System
 ===============
 
-ThinkPHP5.1对底层架构做了进一步的改进，减少依赖，其主要特性包括：
+Is is a online mission coordinator website for Multiplayers in DCS World.
+> Require PHP version > 5.6. suggest higher than version 7.
 
- + 采用容器统一管理对象
- + 支持Facade
- + 注解路由支持
- + 路由跨域请求支持
- + 配置和路由目录独立
- + 取消系统常量
- + 助手函数增强
- + 类库别名机制
- + 增加条件查询
- + 改进查询机制
- + 配置采用二级
- + 依赖注入完善
- + 中间件支持（V5.1.6+）
+ + A light weight PHP framework is used: Thinkphp v5.1 (https://github.com/top-think/framework)
+ + Framework official site: http://thinkphp.cn/
+ + Framework doc: https://www.kancloud.cn/manual/thinkphp5_1/353946 , no Eng version but no worry, use chrome to translate it to eng, there is only small amout of Chinese in it, most of them are code, very ez to understand.
 
+## How to run
+> In test env, make sure PHP interpreter is installed.
+> clone the project, go to public folder, command line excute php -S localhost:8888  router.php
+> OLY DO THAT IN TEST envoirnment, dont put it on internet, suggest use UPUPW http server(https://sourceforge.net/projects/upupw/files/ANK/UPUPW_ANK_W64_V1.1.7.exe/download) or others real HTTP server, if u need to publish it to public.
 
-> ThinkPHP5的运行环境要求PHP5.6以上。
+## Database required
+> support MySQL database and mongodb，
+> DB config file locate at /config/database.php, change password and stuff if needed,
+> SQL file need to be import to database before run, locate in root folder. File name: tp5.sql
+> Good to run
 
+`一个针对DCS world线上对战的玩家任务分配管理平台
 
-## 目录结构
-
-初始的目录结构如下：
-
-~~~
-www  WEB部署目录（或者子目录）
-├─application           应用目录
-│  ├─common             公共模块目录（可以更改）
-│  ├─module_name        模块目录
-│  │  ├─common.php      模块函数文件
-│  │  ├─controller      控制器目录
-│  │  ├─model           模型目录
-│  │  ├─view            视图目录
-│  │  └─ ...            更多类库目录
-│  │
-│  ├─command.php        命令行定义文件
-│  ├─common.php         公共函数文件
-│  └─tags.php           应用行为扩展定义文件
-│
-├─config                应用配置目录
-│  ├─module_name        模块配置目录
-│  │  ├─database.php    数据库配置
-│  │  ├─cache           缓存配置
-│  │  └─ ...            
-│  │
-│  ├─app.php            应用配置
-│  ├─cache.php          缓存配置
-│  ├─cookie.php         Cookie配置
-│  ├─database.php       数据库配置
-│  ├─log.php            日志配置
-│  ├─session.php        Session配置
-│  ├─template.php       模板引擎配置
-│  └─trace.php          Trace配置
-│
-├─route                 路由定义目录
-│  ├─route.php          路由定义
-│  └─...                更多
-│
-├─public                WEB目录（对外访问目录）
-│  ├─index.php          入口文件
-│  ├─router.php         快速测试文件
-│  └─.htaccess          用于apache的重写
-│
-├─thinkphp              框架系统目录
-│  ├─lang               语言文件目录
-│  ├─library            框架类库目录
-│  │  ├─think           Think类库包目录
-│  │  └─traits          系统Trait目录
-│  │
-│  ├─tpl                系统模板目录
-│  ├─base.php           基础定义文件
-│  ├─console.php        控制台入口文件
-│  ├─convention.php     框架惯例配置文件
-│  ├─helper.php         助手函数文件
-│  ├─phpunit.xml        phpunit配置文件
-│  └─start.php          框架入口文件
-│
-├─extend                扩展类库目录
-├─runtime               应用的运行时目录（可写，可定制）
-├─vendor                第三方类库目录（Composer依赖库）
-├─build.php             自动生成定义文件（参考）
-├─composer.json         composer 定义文件
-├─LICENSE.txt           授权说明文件
-├─README.md             README 文件
-├─think                 命令行入口文件
-~~~
-
-> router.php用于php自带webserver支持，可用于快速测试
+> router.php用于php自带webserver支持，可用于快速测试,注意务必只能使用于开发环境，否则使用正常的HTTP服务器，建议使用UPUPW
+> 导入位于根目录的tp5.sql文件到数据库
 > 切换到public目录后，启动命令：php -S localhost:8888  router.php
 > 上面的目录结构和名称是可以改变的，这取决于你的入口文件和配置参数。
 
-## 升级指导
 
-原有下面系统类库的命名空间需要调整：
-
-* think\App      => think\facade\App （或者 App ）
-* think\Cache    => think\facade\Cache （或者 Cache ）
-* think\Config   => think\facade\Config （或者 Config ）
-* think\Cookie   => think\facade\Cookie （或者 Cookie ）
-* think\Debug    => think\facade\Debug （或者 Debug ）
-* think\Hook     => think\facade\Hook （或者 Hook ）
-* think\Lang     => think\facade\Lang （或者 Lang ）
-* think\Log      => think\facade\Log （或者 Log ）
-* think\Request  => think\facade\Request （或者 Request ）
-* think\Response => think\facade\Reponse （或者 Reponse ）
-* think\Route    => think\facade\Route （或者 Route ）
-* think\Session  => think\facade\Session （或者 Session ）
-* think\Url      => think\facade\Url （或者 Url ）
-
-原有的配置文件config.php 拆分为app.php cache.php 等独立配置文件 放入config目录。
-原有的路由定义文件route.php 移动到route目录
 
 ## 命名规范
 
