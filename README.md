@@ -17,7 +17,12 @@ Is is a online mission coordinator website for Multiplayers in DCS World.
 > support MySQL database and mongodb，
 > DB config file locate at /config/database.php, change password and stuff if needed,
 > SQL file need to be import to database before run, locate in root folder. File name: tp5.sql
-> Good to run
+> Good to run(open url in browser:localhost:8888)
+> Two sample page,1. localhost:8888 2.localhost:8888/index/index/obj_detail
+
+
+> further config required, i will keep update in this readme Doc.
+
 
 `一个针对DCS world线上对战的玩家任务分配管理平台
 
